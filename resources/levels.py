@@ -14,11 +14,11 @@ def level_file_read(n_level):
             level = level_file.read()
     elif n_level == '2':
         aux.clean_screen()
-        with open(LEVEL_1, 'r') as level_file:
+        with open(LEVEL_2, 'r') as level_file:
             level = level_file.read() 
     elif n_level == '3':
         aux.clean_screen()
-        with open(LEVEL_1, 'r') as level_file:
+        with open(LEVEL_3, 'r') as level_file:
             level = level_file.read()
     else:
         return -1
