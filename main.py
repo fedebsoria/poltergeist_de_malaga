@@ -6,7 +6,7 @@ def main():
 
     game_status = intro.intro()
 
-    if game_status == 0:
+    if game_status == 1:
         levels.print_map_test('1')
     else:
         return -1

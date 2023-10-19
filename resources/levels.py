@@ -6,6 +6,7 @@ LEVEL_3 = "./resources/levels_maps/level_3.txt"
 
 level = 0
 
+#This function reads a map stored in file and saves it in the var level
 def level_file_read(n_level):
     if n_level == '1':
         aux.clean_screen()
@@ -23,6 +24,7 @@ def level_file_read(n_level):
         return -1
     return level
 
+#this function was made to test the reading function
 def print_map_test(n_level):
     
     actual_map = level_file_read(n_level)
