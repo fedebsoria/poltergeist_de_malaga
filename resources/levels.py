@@ -6,25 +6,21 @@ import os
 LEVEL_1 = "./resources/levels_maps/level_1.txt"
 LEVEL_2 = "./resources/levels_maps/level_2.txt"
 LEVEL_3 = "./resources/levels_maps/level_3.txt"
-POS_X = 0
-POS_Y = 1
 
-level = 1
-my_position = [1, 1]
-map_poltergeist = []
+
 
 #This function reads a map stored in file and saves it in the var level
 def level_file_read(n_level):
     if n_level == 1:
-        aux.clean_screen()
+        aux.clean_screen
         with open(LEVEL_1, 'r') as level_file:
             level = level_file.read()
     elif n_level == 2:
-        aux.clean_screen()
+        aux.clean_screen
         with open(LEVEL_2, 'r') as level_file:
             level = level_file.read() 
     elif n_level == 2:
-        aux.clean_screen()
+        aux.clean_screen
         with open(LEVEL_3, 'r') as level_file:
             level = level_file.read()
     else:
@@ -38,14 +34,34 @@ def print_map_test(n_level):
 
     print (actual_map)
 
-def level_draw_and_controls(level, my_position, map_poltergeist):
-    
+def level_draw_and_controls():
+    POS_X = 1
+    POS_Y = 1
+    map_poltergeist = []
+    my_position = [1,1]
     end_game = False
     battle = False
-    change_map = 1
+    level = 1
     max_poltergeist = 0
     #create obstacle map
-    obstacle_definition = level_file_read(level)
+    #obstacle_definition = level_file_read(level)
+    obstacle_definition = """\
+#############################
+[                           #
+#    #######         ####   #
+#                           #
+#########!    #####         #
+#                        ####
+#                           #
+####      ############      #
+#                           #
+#############           !   #
+#                     #######
+#                           #
+#                  ####     #
+#                           ]
+#############################\
+"""
     obstacle_definition = [list(row) for row in obstacle_definition.split('\n')]
 
     MAP_WIDTH = len(obstacle_definition[0])
@@ -53,11 +69,11 @@ def level_draw_and_controls(level, my_position, map_poltergeist):
 
     #map loop
     while end_game != True:
-        if change_map == 1:
+        if level == 1:
             max_poltergeist = 2
-        elif change_map == 2:
+        elif level == 2:
             max_poltergeist = 3
-        elif change_map == 3:
+        elif level == 3:
             max_poltergeist = 1
 
         #generate poltergeist randomly
@@ -70,11 +86,10 @@ def level_draw_and_controls(level, my_position, map_poltergeist):
                                 obstacle_definition[new_position[POS_Y]][new_position[POS_X]] != '!':
                     map_poltergeist.append(new_position)
         
-        #print the map
-        print("#" * (MAP_WIDTH  + 2))
+        print("+" + "-" * MAP_WIDTH + "+")
 
         for cordinate_y in range(MAP_HEIGHT):
-            row ="|"
+            print("|", end="")
             for cordinate_x in range(MAP_WIDTH):
 
                 char_to_draw = " "
@@ -96,10 +111,11 @@ def level_draw_and_controls(level, my_position, map_poltergeist):
 
                 if obstacle_definition[cordinate_y][cordinate_x] == '#':
                     char_to_draw = "#"
-                row += char_to_draw
-            row += "|"
-        print("#" * (MAP_WIDTH + 2))
+
+                print("{}".format(char_to_draw, end=""))
+            print("|")
         
+        print("+" + "-" * MAP_WIDTH + "+")
 
         #character motion
         direction = readchar.readchar().encode().decode()
@@ -121,6 +137,6 @@ def level_draw_and_controls(level, my_position, map_poltergeist):
             if obstacle_definition[new_position[POS_Y]][new_position[POS_X]] != '#':
                 my_position = new_position
         
-        aux.clean_screen()
+        aux.clean_screen
 
         #Here will go the battle
