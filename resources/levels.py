@@ -6,7 +6,7 @@ import os
 LEVEL_1 = "./resources/levels_maps/level_1.txt"
 LEVEL_2 = "./resources/levels_maps/level_2.txt"
 LEVEL_3 = "./resources/levels_maps/level_3.txt"
-POS_X = 1
+POS_X = 0
 POS_Y = 1
 
 level = 1
@@ -43,7 +43,7 @@ def level_draw_and_controls(level, my_position, map_poltergeist):
     end_game = False
     battle = False
     change_map = 1
-    max_poltergeist = 0;
+    max_poltergeist = 0
     #create obstacle map
     obstacle_definition = level_file_read(level)
     obstacle_definition = [list(row) for row in obstacle_definition.split('\n')]
@@ -52,36 +52,41 @@ def level_draw_and_controls(level, my_position, map_poltergeist):
     MAP_HEIGHT = len(obstacle_definition)
 
     #map loop
-    while end_game != True or change_map < change_map:
+    while end_game != True:
         if change_map == 1:
             max_poltergeist = 2
         elif change_map == 2:
             max_poltergeist = 3
         elif change_map == 3:
-            max_poltergeist = 0
+            max_poltergeist = 1
 
-        #generate poltergeist in random
+        #generate poltergeist randomly
         while len(map_poltergeist) < max_poltergeist:
             new_position = [random.randint(0, MAP_WIDTH - 1), random.randint(0, MAP_HEIGHT - 1)]
-
-            if new_position not in map_poltergeist and new_position != my_position and\
-                obstacle_definition[new_position[POS_Y]][new_position[POS_X]] != '#' and\
-                obstacle_definition[new_position[POS_Y]][new_position[POS_X]] != '!':
+            if new_position[POS_X] >= 0 and new_position[POS_X] < MAP_WIDTH and\
+                    new_position[POS_Y] >= 0 and new_position[POS_Y] < MAP_HEIGHT:
+                if new_position not in map_poltergeist and new_position != my_position and\
+                            obstacle_definition[new_position[POS_Y]][new_position[POS_X]] != '#' and\
+                                obstacle_definition[new_position[POS_Y]][new_position[POS_X]] != '!':
                     map_poltergeist.append(new_position)
         
+        #print the map
+        print("#" * (MAP_WIDTH  + 2))
+
         for cordinate_y in range(MAP_HEIGHT):
+            row ="|"
             for cordinate_x in range(MAP_WIDTH):
 
-                char_to_draw = "   "
+                char_to_draw = " "
                 object_in_cell = None
                 
                 for map_object in map_poltergeist:
-                    if map_object[POS_X] == cordinate_x and map_object[POS_Y == cordinate_y]:
-                        char_to_draw = " & "
+                    if map_object[POS_X] == cordinate_x and map_object[POS_Y] == cordinate_y:
+                        char_to_draw = "&"
                         object_in_cell = map_object
                 
                 if my_position[POS_X] == cordinate_x and my_position[POS_Y] == cordinate_y:
-                    char_to_draw = " @ "
+                    char_to_draw = "@"
 
                     if object_in_cell:
                         map_poltergeist.remove(object_in_cell)
@@ -90,9 +95,11 @@ def level_draw_and_controls(level, my_position, map_poltergeist):
                         #def batalla
 
                 if obstacle_definition[cordinate_y][cordinate_x] == '#':
-                    char_to_draw = "###"
-
-                print("{}".format(char_to_draw, end=''))
+                    char_to_draw = "#"
+                row += char_to_draw
+            row += "|"
+        print("#" * (MAP_WIDTH + 2))
+        
 
         #character motion
         direction = readchar.readchar().encode().decode()

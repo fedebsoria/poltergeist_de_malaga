@@ -10,6 +10,9 @@ def main():
 
     game_status = intro.intro()
 
+
+
+
     if game_status == 1:
         levels.level_draw_and_controls(level, my_position, map_poltergeist)
     else:
